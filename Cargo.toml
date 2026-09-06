@@ -1,0 +1,71 @@
+[package]
+name = "vox"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "vox"
+path = "src/main.rs"
+
+# Shared dependency versions match the Vox macOS spec.
+[dependencies]
+anyhow = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+arboard = "3"
+cpal = "0.15"
+tao = "0.35.3"
+tray-icon = "0.24.1"
+enigo = "0.6.1"
+axum = "0.8.9"
+tokio = { version = "1.52.3", features = ["rt-multi-thread", "macros", "net"] }
+libc = "0.2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# The "tracing" feature isn't default-on: without it, global-hotkey's X11
+# backend thread (which does its own connection setup, XKB extension
+# negotiation, and XGrabKey calls independently of the rest of the app) logs
+# nothing on failure, and register_hotkey() can still return Ok(()) even
+# when nothing was actually registered - its internal channel-based error
+# path silently drops the failure if the worker thread has already exited.
+# Confirmed via real hardware testing on this port: silence here does not
+# mean success.
+global-hotkey = { version = "0.8.0", features = ["tracing"] }
+
+# Exact macOS stack from the Vox spec.
+[target.'cfg(target_os = "macos")'.dependencies]
+whisper-rs = { version = "0.14", features = ["metal"] }
+core-graphics = "0.25.0"
+core-foundation = "0.10"
+objc2 = "0.6.4"
+objc2-app-kit = "0.3.2"
+objc2-foundation = "0.3.2"
+
+# Whisper still runs on Linux, just on CPU instead of Metal.
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+whisper-rs = "0.14"
+# libei/ashpd (portal-authorized input injection) alongside the default
+# x11rb backend: enigo tries libei first and falls back to x11rb per event,
+# so this is additive, not a replacement. Needed because plain XTest (what
+# x11rb alone uses) does not reliably deliver synthetic input to native
+# Wayland windows on at least KDE Plasma - confirmed empirically, not
+# theoretical - while libei goes through the properly authorized
+# xdg-desktop-portal RemoteDesktop session a real input-injecting app is
+# supposed to use, one-time interactive consent and all.
+enigo = { version = "0.6.1", features = ["libei_tokio"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+# Vendored, patched copy of enigo 0.6.1: upstream's libei/portal backend
+# requests persistent RemoteDesktop consent (PersistMode::Application) but
+# never saves or replays the restore_token, so the compositor's permission
+# dialog reappears on every single call instead of just once. See
+# vendor/enigo/src/linux/libei.rs for the patch. MIT-licensed, vendored
+# under vendor/enigo.
+[patch.crates-io]
+enigo = { path = "vendor/enigo" }
