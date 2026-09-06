@@ -1,14 +1,13 @@
-# Vox
+# VoiceFlow
 
-[![CI](https://github.com/Siddharth189/Vox/actions/workflows/ci.yml/badge.svg)](https://github.com/Siddharth189/Vox/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 
 A local-first, menu-bar voice dictation app for macOS and Linux. Hold a global hotkey, speak,
 release. Whisper transcribes on-device, a local Ollama model cleans up the text for whatever
 app you're in, and the result lands at your cursor. Nothing leaves your machine on the
 default path.
 
-Vox started as a macOS app. Linux support is newer, and its rough edges are platform-dependent
+VoiceFlow started as a macOS app. Linux support is newer, and its rough edges are platform-dependent
 (which desktop environment and display server you run) rather than code-dependent. See
 [Linux support](#linux-support) below for exactly what to expect on your setup.
 
@@ -25,7 +24,7 @@ Vox started as a macOS app. Linux support is newer, and its rough edges are plat
   Code, Terminal, Alacritty, Konsole, and 1Password. On Linux, this needs a way to ask the
   desktop which window is focused; see [Linux support](#linux-support).
 - **Per-app privacy switch.** Mark any app as disabled (1Password is disabled by default) and
-  Vox will never transcribe, process, or inject text while that app is focused.
+  VoiceFlow will never transcribe, process, or inject text while that app is focused.
 - **Dictation-aware LLM cleanup.** Fixes grammar, punctuation, and filler words, expands
   spoken forms ("pr six eight four" becomes "PR #684"), and rewrites requests instead of
   fulfilling them, so saying "write two lines summarizing the outage" produces two lines of
@@ -34,10 +33,10 @@ Vox started as a macOS app. Linux support is newer, and its rough edges are plat
   pin an input/output language explicitly. Includes purpose-built handling for Hinglish and
   other Hindi/English code-switched speech. Recognized languages: English, Hindi, Tamil,
   Spanish, Japanese, French, German, Portuguese, Chinese, Arabic, Korean, Italian, Russian.
-- **Custom dictionary with automatic aliases.** Teach Vox proper nouns, product names, and
+- **Custom dictionary with automatic aliases.** Teach VoiceFlow proper nouns, product names, and
   jargon. Multi-word or hyphenated terms (for example `CI/CD`) get sensible alias variants
   automatically, so misheard spellings get normalized back to your canonical form.
-- **Learns from your corrections.** Edit a past dictation in the history view, and Vox aligns
+- **Learns from your corrections.** Edit a past dictation in the history view, and VoiceFlow aligns
   the edit against your dictionary to learn a new spelling alias automatically.
 - **Auto-paste with layered fallbacks.** Tries a synthetic Cmd+V (macOS) or Ctrl+V (Linux)
   paste, falls back further on macOS to `osascript`, and in the worst case always leaves the
