@@ -1,6 +1,6 @@
-# Vox architecture
+# VoiceFlow architecture
 
-Vox is a local-first menu-bar dictation app for macOS and Linux. Hold a global hotkey → speak
+VoiceFlow is a local-first menu-bar dictation app for macOS and Linux. Hold a global hotkey → speak
 → release → Whisper transcribes → Ollama cleans/formats → dictionary normalization →
 auto-paste at the cursor.
 
@@ -30,9 +30,9 @@ handling.
 
 ## Config & data
 
-macOS: `~/Library/Application Support/vox/`. Linux: `$XDG_DATA_HOME/vox`,
-falling back to `~/.local/share/vox`. Both hold `settings.yaml`,
-`history.json`, `models/`, `vox.lock`, and `tray.log`, written `0600`/`0700`.
+macOS: `~/Library/Application Support/VoiceFlow/`. Linux: `$XDG_DATA_HOME/VoiceFlow`,
+falling back to `~/.local/share/VoiceFlow`. Both hold `settings.yaml`,
+`history.json`, `models/`, `VoiceFlow.lock`, and `tray.log`, written `0600`/`0700`.
 
 ## Settings UI
 
